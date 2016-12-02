@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         passtheheadphones.me - Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
-// @version      0.1.0
+// @version      0.1.1
 // @description  Highlight threads you created
 // @author       SavageCore
 // @include      http*://passtheheadphones.me/forums.php?action=viewforum*
