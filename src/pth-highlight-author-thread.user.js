@@ -6,15 +6,16 @@
 // @author       SavageCore
 // @include      http*://passtheheadphones.me/forums.php?action=viewforum*
 // @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
+// @grant        GM_addStyle
 
 // ==/UserScript==
 
-/*	global document	*/
+/*	global document GM_addStyle	*/
 
 (function () {
 	'use strict';
 		// Append CSS to document
-	addCSS('.sc_highlight_author_thread { background-color: #FF7043 !important}');
+	GM_addStyle('.sc_highlight_author_thread { background-color: #FF7043 !important}'); // eslint-disable-line new-cap
 
 		// Get userid
 	var userinfoElement = document.getElementsByClassName('username')[0];
@@ -32,12 +33,5 @@
 		if (userid === row.cells[3].firstChild.href.match(/user\.php\?id=(\d+)/)[1]) {
 			row.className = 'sc_highlight_author_thread';
 		}
-	}
-
-	function addCSS(style) {
-		var css = document.createElement('style');
-		document.getElementsByTagName('head')[0].appendChild(css);
-		css.type = 'text/css';
-		css.innerHTML = style;
 	}
 })();
