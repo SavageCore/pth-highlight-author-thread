@@ -4,8 +4,8 @@
 // @version      0.1.0
 // @description  Highlight threads you created
 // @author       SavageCore
-// @include						http*://passtheheadphones.me/forums.php?action=viewforum*
-// @downloadURL	 https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
+// @include      http*://passtheheadphones.me/forums.php?action=viewforum*
+// @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
 
 // ==/UserScript==
 
