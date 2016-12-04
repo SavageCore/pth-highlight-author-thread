@@ -28,8 +28,7 @@
 	findThreads(table);
 
 		// Observe the page for more rows added to table
-	MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-	var obs = new MutationObserver(function (mutations, observer) {
+	var obs = new MutationObserver(function (mutations) { // eslint-disable-line no-undef
 		var rows = mutations[0].addedNodes;
 				// Start at 1 to skip 'page-info' row inserted by Infinite Scroll
 		for (var i = 1; i < rows.length; i++) {
