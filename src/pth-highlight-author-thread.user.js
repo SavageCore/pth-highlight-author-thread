@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         passtheheadphones.me - Highlight Created Forum Threads
+// @name         PTH Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
 // @version      0.1.1
 // @description  Highlight threads you created
