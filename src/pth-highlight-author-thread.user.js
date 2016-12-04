@@ -5,6 +5,7 @@
 // @description  Highlight threads you created
 // @author       SavageCore
 // @include      http*://passtheheadphones.me/forums.php?action=viewforum*
+// @include      http*://passtheheadphones.me/forums.php?page=*&action=viewforum*
 // @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
 // @grant        GM_addStyle
 
