@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         RED Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
-// @version      0.1.3
+// @version      0.1.4
 // @description  Highlight threads you created
 // @author       SavageCore
 // @include      http*://redacted.ch/forums.php?action=viewforum*
