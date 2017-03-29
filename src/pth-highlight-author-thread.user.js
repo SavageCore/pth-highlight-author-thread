@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         PTH Highlight Created Forum Threads
+// @name         RED Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
-// @version      0.1.2
+// @version      0.1.3
 // @description  Highlight threads you created
 // @author       SavageCore
-// @include      http*://passtheheadphones.me/forums.php?action=viewforum*
-// @include      http*://passtheheadphones.me/forums.php?page=*&action=viewforum*
+// @include      http*://redacted.ch/forums.php?action=viewforum*
+// @include      http*://redacted.ch/forums.php?page=*&action=viewforum*
 // @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
 // @grant        GM_addStyle
 
