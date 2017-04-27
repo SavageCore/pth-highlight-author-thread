@@ -1,4 +1,4 @@
-Add background colour to threads you are Author of on PassTheHeadphones
+Add background colour to threads you are author of on RED
 
 ![Preview](http://i.imgur.com/EAa1IMF.png)
 
