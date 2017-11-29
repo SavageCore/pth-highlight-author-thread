@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         RED Highlight Created Forum Threads
+// @name         Gazelle Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
 // @version      0.2.4
 // @description  Highlight threads you created
@@ -7,6 +7,12 @@
 // @include      http*://redacted.ch/forums.php?action=viewforum*
 // @include      http*://redacted.ch/forums.php?page=*&action=viewforum*
 // @include      http*://redacted.ch/user.php?action=edit&userid=*
+// @include      http*://apollo.rip/forums.php?action=viewforum*
+// @include      http*://apollo.rip/forums.php?page=*&action=viewforum*
+// @include      http*://apollo.rip/user.php?action=edit&userid=*
+// @include      http*://notwhat.cd/forums.php?action=viewforum*
+// @include      http*://notwhat.cd/forums.php?page=*&action=viewforum*
+// @include      http*://notwhat.cd/user.php?action=edit&userid=*
 // @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @grant        GM_addStyle
@@ -26,15 +32,20 @@
 
 (async function () {
 	'use strict';
+
+	// Get userid
+	const userinfoElement = document.getElementsByClassName('username')[0];
+	const userid = userinfoElement.href.match(/user\.php\?id=(\d+)/)[1];
+	// Get current hostname
+	const siteHostname = window.location.host;
+	// Get domain-specific settings prefix to make this script multi-site
+	const settingsNamePrefix = siteHostname + '_' + userid + '_';
+
 	// Load settings
 	const settings = await getSettings();
 
 	// Append CSS to document
 	GM.addStyle('.sc_highlight_author_thread { background-color: ' + settings.colour + ' !important}');
-
-	// Get userid
-	const userinfoElement = document.getElementsByClassName('username')[0];
-	const userid = userinfoElement.href.match(/user\.php\?id=(\d+)/)[1];
 
 	const table = document.getElementsByClassName('forum_index')[0];
 	const tbody = document.querySelectorAll('.forum_index > tbody')[0];
@@ -80,16 +91,16 @@
 	function appendSettings() {
 		const container = document.getElementById('site_appearance_settings').lastElementChild;
 		const lastRow = container.lastElementChild;
-		const settingsHTML = `<tr id="sc_highlight_author_thread_tr">\n\t<td class="label tooltip"><strong>Thread Highlight Colour</strong></td>\n<td>\n\t<input type="color" name="sc_highlight_author_thread_settings_colour" id="sc_highlight_author_thread_settings_colour" value="${settings.colour}" placeholder="#FF7043">\n</td>\n</tr>`;
+		const settingsHTML = `<tr id="sc_highlight_author_thread_tr">\n\t<td class="label tooltip" title="Use this colour to highlight all forum threads created by you"><strong>Thread Highlight Colour</strong></td>\n<td>\n\t<input type="color" name="sc_highlight_author_thread_settings_colour" id="sc_highlight_author_thread_settings_colour" value="${settings.colour}" placeholder="#FF7043">\n</td>\n</tr>`;
 		lastRow.insertAdjacentHTML('afterend', settingsHTML);
 		document.querySelector('#sc_highlight_author_thread_settings_colour').addEventListener('input', evt => {
-			GM.setValue('colour', evt.target.value);
+			GM.setValue(settingsNamePrefix + 'colour', evt.target.value);
 		}, false);
 	}
 
 	async function getSettings() {
 		const tmp = {};
-		tmp.colour = await GM.getValue('colour', '#FF7043');
+		tmp.colour = await GM.getValue(settingsNamePrefix + 'colour', '#FF7043');
 		return tmp;
 	}
 })();
