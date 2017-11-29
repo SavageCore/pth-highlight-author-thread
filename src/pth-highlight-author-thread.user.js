@@ -8,28 +8,31 @@
 // @include      http*://redacted.ch/forums.php?page=*&action=viewforum*
 // @include      http*://redacted.ch/user.php?action=edit&userid=*
 // @downloadURL  https://github.com/SavageCore/pth-highlight-author-thread/raw/master/src/pth-highlight-author-thread.user.js
-// @require      http://bgrins.github.com/spectrum/spectrum.js
-// @resource     spectrumCSS http://bgrins.github.com/spectrum/spectrum.css
+// @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_getResourceText
+// @grant        GM_xmlhttpRequest
+// @grant        GM.addStyle
+// @grant        GM.getValue
+// @grant        GM.setValue
+// @grant        GM.xmlHttpRequest
+// @run-at			 document-idle
 
 // ==/UserScript==
 
-/* global document window GM_addStyle GM_getValue GM_setValue GM_getResourceText unsafeWindow */
+/* global document window GM */
 /* eslint new-cap: "off" */
 
-(function () {
+(async function () {
 	'use strict';
-
 	// Load settings
-	const settings = getSettings();
+	const settings = await getSettings();
 
-		// Append CSS to document
-	GM_addStyle('.sc_highlight_author_thread { background-color: ' + settings.colour + ' !important}');
+	// Append CSS to document
+	GM.addStyle('.sc_highlight_author_thread { background-color: ' + settings.colour + ' !important}');
 
-		// Get userid
+	// Get userid
 	const userinfoElement = document.getElementsByClassName('username')[0];
 	const userid = userinfoElement.href.match(/user\.php\?id=(\d+)/)[1];
 
@@ -40,13 +43,13 @@
 
 	if (settingsPage) {
 		// Append colour picker to settings page
-		appendSettings();
+		appendSettings(settings);
 	} else {
 		findThreads(table);
 		// Observe the page for more rows added to table
 		const obs = new MutationObserver(mutations => { // eslint-disable-line no-undef
 			const rows = mutations[0].addedNodes;
-				// Start at 1 to skip 'page-info' row inserted by Infinite Scroll
+			// Start at 1 to skip 'page-info' row inserted by Infinite Scroll
 			for (let i = 1; i < rows.length; i++) {
 				if (userid === rows[i].cells[3].firstChild.href.match(/user\.php\?id=(\d+)/)[1]) {
 					rows[i].className = 'sc_highlight_author_thread';
@@ -75,37 +78,18 @@
 	}
 
 	function appendSettings() {
-		const $ = unsafeWindow.jQuery;
-		// Load remote spectrum css
-		const spectrumCSS = GM_getResourceText('spectrumCSS');
-		GM_addStyle(spectrumCSS);
-
 		const container = document.getElementById('site_appearance_settings').lastElementChild;
 		const lastRow = container.lastElementChild;
-		const settingsHTML = '<tr id="sc_highlight_author_thread_tr">\n\t<td class="label tooltip"><strong>Thread Highlight Colour</strong></td>\n<td>\n\t<input type="color" name="sc_highlight_author_thread_settings_colour" id="sc_highlight_author_thread_settings_colour" value="" placeholder="#FFFFFF">\n</td>\n</tr>';
+		const settingsHTML = `<tr id="sc_highlight_author_thread_tr">\n\t<td class="label tooltip"><strong>Thread Highlight Colour</strong></td>\n<td>\n\t<input type="color" name="sc_highlight_author_thread_settings_colour" id="sc_highlight_author_thread_settings_colour" value="${settings.colour}" placeholder="#FF7043">\n</td>\n</tr>`;
 		lastRow.insertAdjacentHTML('afterend', settingsHTML);
-
-		$('#sc_highlight_author_thread_settings_colour').spectrum({
-			preferredFormat: 'hex',
-			color: settings.colour,
-			showInput: true,
-			showPalette: true,
-			change(color) {
-				color.toHexString();
-				GM_setValue('colour', color.toHexString());
-			}
-		});
+		document.querySelector('#sc_highlight_author_thread_settings_colour').addEventListener('input', evt => {
+			GM.setValue('colour', evt.target.value);
+		}, false);
 	}
 
-	function getSettings() {
-		const colour = GM_getValue('colour', '');
-		if (colour) {
-			return {
-				colour
-			};
-		}
-		return {
-			colour: '#FF7043'
-		};
+	async function getSettings() {
+		const tmp = {};
+		tmp.colour = await GM.getValue('colour', '#FF7043');
+		return tmp;
 	}
 })();
