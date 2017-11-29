@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gazelle Highlight Created Forum Threads
 // @namespace    http://savagecore.eu/
-// @version      0.2.4
+// @version      0.3.4
 // @description  Highlight threads you created
 // @author       SavageCore
 // @include      http*://redacted.ch/forums.php?action=viewforum*
